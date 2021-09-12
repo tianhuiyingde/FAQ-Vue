@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.aixuexi.mapper.AxxServicemoduleMapper">
+    
+    <resultMap type="AxxServicemodule" id="AxxServicemoduleResult">
+        <result property="servicemoduleId"    column="servicemodule_id"    />
+        <result property="parentId"    column="parent_id"    />
+        <result property="ancestors"    column="ancestors"    />
+        <result property="servicemoduleName"    column="servicemodule_name"    />
+        <result property="orderNum"    column="order_num"    />
+        <result property="leader"    column="leader"    />
+        <result property="email"    column="email"    />
+        <result property="status"    column="status"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectAxxServicemoduleVo">
+        select servicemodule_id, parent_id, ancestors, servicemodule_name, order_num, leader, email, status, del_flag, create_by, create_time, update_by, update_time from axx_servicemodule
+    </sql>
+
+    <select id="selectAxxServicemoduleList" parameterType="AxxServicemodule" resultMap="AxxServicemoduleResult">
+        <include refid="selectAxxServicemoduleVo"/>
+        <where>  
+            <if test="servicemoduleName != null  and servicemoduleName != ''"> and servicemodule_name like concat('%', #{servicemoduleName}, '%')</if>
+            <if test="leader != null  and leader != ''"> and leader = #{leader}</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+        </where>
+    </select>
+    
+    <select id="selectAxxServicemoduleById" parameterType="Long" resultMap="AxxServicemoduleResult">
+        <include refid="selectAxxServicemoduleVo"/>
+        where servicemodule_id = #{servicemoduleId}
+    </select>
+        
+    <insert id="insertAxxServicemodule" parameterType="AxxServicemodule" useGeneratedKeys="true" keyProperty="servicemoduleId">
+        insert into axx_servicemodule
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="parentId != null">parent_id,</if>
+            <if test="ancestors != null">ancestors,</if>
+            <if test="servicemoduleName != null">servicemodule_name,</if>
+            <if test="orderNum != null">order_num,</if>
+            <if test="leader != null">leader,</if>
+            <if test="email != null">email,</if>
+            <if test="status != null">status,</if>
+            <if test="delFlag != null">del_flag,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="parentId != null">#{parentId},</if>
+            <if test="ancestors != null">#{ancestors},</if>
+            <if test="servicemoduleName != null">#{servicemoduleName},</if>
+            <if test="orderNum != null">#{orderNum},</if>
+            <if test="leader != null">#{leader},</if>
+            <if test="email != null">#{email},</if>
+            <if test="status != null">#{status},</if>
+            <if test="delFlag != null">#{delFlag},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAxxServicemodule" parameterType="AxxServicemodule">
+        update axx_servicemodule
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="parentId != null">parent_id = #{parentId},</if>
+            <if test="ancestors != null">ancestors = #{ancestors},</if>
+            <if test="servicemoduleName != null">servicemodule_name = #{servicemoduleName},</if>
+            <if test="orderNum != null">order_num = #{orderNum},</if>
+            <if test="leader != null">leader = #{leader},</if>
+            <if test="email != null">email = #{email},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="delFlag != null">del_flag = #{delFlag},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where servicemodule_id = #{servicemoduleId}
+    </update>
+
+    <delete id="deleteAxxServicemoduleById" parameterType="Long">
+        delete from axx_servicemodule where servicemodule_id = #{servicemoduleId}
+    </delete>
+
+    <delete id="deleteAxxServicemoduleByIds" parameterType="String">
+        delete from axx_servicemodule where servicemodule_id in 
+        <foreach item="servicemoduleId" collection="array" open="(" separator="," close=")">
+            #{servicemoduleId}
+        </foreach>
+    </delete>
+</mapper>
